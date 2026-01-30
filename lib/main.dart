@@ -44,6 +44,26 @@ class _VelocityPageState extends State<VelocityPage> {
   
   final List<PositionData> _positionWindow = [];
   static const int kWindowSizeSeconds = 5;
+  
+  void _navigateToSettings() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => const SettingsPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(-1.0, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -189,10 +209,22 @@ class _VelocityPageState extends State<VelocityPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('Veloster'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: _navigateToSettings,
+          ),
+        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Column(
+      body: GestureDetector(
+        onHorizontalDragEnd: (details) {
+          if (details.primaryVelocity != null && details.primaryVelocity! > 0) {
+            _navigateToSettings();
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 48),
@@ -217,21 +249,28 @@ class _VelocityPageState extends State<VelocityPage> {
             Row(
               children: [
                 Expanded(
-                  child: Text(
-                    'AVR. ${_displayAverageVelocity.toStringAsFixed(1)} km/h',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.outline,
+                  child: Container(
+                    height: 48,
+                    alignment: Alignment.center,
+                    child: Text(
+                      'AVR. ${_displayAverageVelocity.toStringAsFixed(1)} km/h',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ),
+                const SizedBox(width: 16),
                 Expanded(
-                  child: Text(
-                    'MAX. ${_displayMaxVelocity.toStringAsFixed(1)} km/h',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.outline,
+                  child: Container(
+                    height: 48,
+                    alignment: Alignment.center,
+                    child: Text(
+                      'MAX. ${_displayMaxVelocity.toStringAsFixed(1)} km/h',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ),
               ],
@@ -257,6 +296,7 @@ class _VelocityPageState extends State<VelocityPage> {
           ],
         ),
       ),
+    ),
     );
   }
 }
@@ -269,4 +309,21 @@ class PositionData {
     required this.position,
     required this.timestamp,
   });
+}
+
+class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text('设置'),
+      ),
+      body: const Center(
+        child: Text('设置页面'),
+      ),
+    );
+  }
 }
