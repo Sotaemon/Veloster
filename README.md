@@ -1,16 +1,11 @@
 # Veloster
 
-A new Flutter project that I made for a test project in which I'd like to take some tests on Flutter Architecture to exam my ability in multi-platform software devlopment.
+## Introduction
+Veloster means Velocity Tester.
+Which is a simple toolkit for Multi-methods velocity testing on Mobile Devices.
+And as a little kit I used for a basical training on Flutter/Dart, this program would first published on Android platform.
 
-## Getting Started
+## TODO List
+1. Finish the Basic UI components.
+2. Implication the function of GPS method.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
